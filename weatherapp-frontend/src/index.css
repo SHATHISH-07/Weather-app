@@ -1,0 +1,29 @@
+html,
+#root {
+  scroll-behavior: smooth;
+}
+
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+:root {
+  --transition-speed: 0.5s;
+}
+
+.search-results::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.dark .search-results::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 10px;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
