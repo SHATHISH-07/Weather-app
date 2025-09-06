@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { GET_CURRENT_WEATHER } from "../graphql/queries/getCurrentWeather";
 import CitySearchBar from "../components/CitySearchBar";
+import currentWeatherPlaceholder from "/weather-placeholder.svg";
 
 const CurrentWeather = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -50,11 +51,11 @@ const CurrentWeather = () => {
   };
 
   const renderWeatherCard = () => (
-    <div className="w-full sm:max-w-4xl flex flex-col justify-center items-center">
+    <div className="w-full sm:max-w-6xl h-[100%] flex flex-col justify-center items-center">
       <h3 className="text-3xl font-normal text-black dark:text-white my-5">
-        Current Weather of {city}
+        Current Weather
       </h3>
-      <div className=" h-auto rounded-xl shadow-lg bg-white dark:bg-[#121212] text-gray-800 dark:text-gray-100 p-6 space-y-4">
+      <div className="w-full h-auto rounded-xl shadow-lg bg-white dark:bg-[#121212] text-gray-800 dark:text-gray-100 p-6 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           {/* Left Side */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
@@ -135,7 +136,7 @@ const CurrentWeather = () => {
         Current Weather
       </h3>
       <img
-        src="/weather-placeholder.svg"
+        src={currentWeatherPlaceholder}
         alt="Weather Illustration"
         className="w-48 h-48 "
       />
@@ -150,7 +151,7 @@ const CurrentWeather = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-[#1c1c1e] flex flex-col items-center justify-start p-4">
+    <div className="pb-20 sm:pb-30 mt-[50px] md:mt-[65px] bg-gray-100 dark:bg-[#1c1c1e] flex flex-col items-center justify-start p-4">
       <CitySearchBar
         text={"Get Weather"}
         placeholder={"Enter city name"}
@@ -171,8 +172,9 @@ const CurrentWeather = () => {
       )}
 
       {loading && (
-        <p className="text-center text-sm text-black dark:text-white">
+        <p className="text-center text-sm text-black dark:text-white mt-2">
           Loading weather data...
+          {renderDefaultView()}
         </p>
       )}
 

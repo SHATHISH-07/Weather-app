@@ -63,7 +63,9 @@ const AirQuality = () => {
     }
   }, [geoData, getAirQuality]);
 
-  const handleSearch = () => {
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!city || !country) return;
     getCoords({
       variables: {
@@ -77,7 +79,7 @@ const AirQuality = () => {
   const components = airData?.getAirQuality?.list?.[0]?.components;
 
   return (
-    <div className=" mx-auto px-4 py-6 bg-[#f3f4f6] dark:bg-[#1c1c1e]">
+    <div className="mt-[50px] md:mt-[65px] mx-auto px-4 py-6 bg-[#f3f4f6] dark:bg-[#1c1c1e]">
       <FrdGeoSearchBar
         text="Get Air Quality"
         placeholder="Enter City Name"
@@ -106,9 +108,7 @@ const AirQuality = () => {
         {components ? (
           <div className="bg-white dark:bg-[#121212] shadow-lg rounded-2xl p-6 max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-5 text-center text-gray-800 dark:text-white">
-              {city
-                ? `Air Quality in ${city}`
-                : "Please enter a city to get air quality"}
+              {city ? `Air Quality` : "Please enter a city to get air quality"}
             </h2>
 
             {/* Loading and Error States */}

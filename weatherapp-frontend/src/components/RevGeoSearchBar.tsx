@@ -37,7 +37,7 @@ const RevGeoSearchBar: React.FC<Props> = ({
       <div className="flex flex-col md:flex-row justify-center items-center mt-10 gap-4">
         <input
           id="cityInput"
-          type="text"
+          type="number"
           placeholder={"Enter Latitude"}
           value={latitude}
           inputMode="decimal"
@@ -52,7 +52,7 @@ const RevGeoSearchBar: React.FC<Props> = ({
 
         <input
           id="stateInput"
-          type="text"
+          type="number"
           placeholder="Enter Longitude"
           value={longitude}
           inputMode="decimal"

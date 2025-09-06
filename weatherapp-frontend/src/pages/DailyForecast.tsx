@@ -40,7 +40,6 @@ const DailyForecast = () => {
   const [getDailyForecast, { data: forecastData, loading, error }] =
     useLazyQuery(GET_DAILY_FORECAST);
 
-  // Load user's default location and get coordinates
   useEffect(() => {
     if (user?.city && user?.state && user?.country) {
       setCity(user.city);
@@ -56,7 +55,6 @@ const DailyForecast = () => {
     }
   }, [user, getCoords]);
 
-  // Get weather once coordinates are available
   useEffect(() => {
     const lat = parseFloat(geoData?.getForwardGeocoding[0]?.lat || "");
     const lon = parseFloat(geoData?.getForwardGeocoding[0]?.lon || "");
@@ -72,19 +70,19 @@ const DailyForecast = () => {
     }
   }, [geoData, getDailyForecast]);
 
-  // Manual search submit
-  const handleSearch = () => {
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
     getCoords({
       variables: {
-        city: city,
-        state: state,
-        country: country,
+        city,
+        state,
+        country,
       },
     });
   };
 
   return (
-    <div className="bg-[#f3f4f6] dark:bg-[#1c1c1e] text-black dark:text-white min-h-screen p-6">
+    <div className="bg-[#f3f4f6] mt-[50px] md:mt-[65px] dark:bg-[#1c1c1e] text-black dark:text-white sm:min-h-screen p-6">
       <FrdGeoSearchBar
         text="Daily Forecast"
         placeholder="Enter the city"
@@ -99,16 +97,22 @@ const DailyForecast = () => {
         handleSubmit={handleSearch}
       />
 
-      {loading ? (
+      {!forecastData && renderDefaultView()}
+
+      {loading && (
         <p className="text-center text-2xl mt-4 text-black dark:text-white">
           Loading...
         </p>
-      ) : error ? (
-        <p className="text-center text-red-500">Error: {error.message}</p>
-      ) : forecastData ? (
+      )}
+
+      {error && (
+        <p className="text-center text-red-500 mt-2">Error: {error.message}</p>
+      )}
+
+      {!loading && forecastData && (
         <div>
           <h2 className="text-4xl mt-15 mb-3 font-normal text-center">
-            Daily Forecast for {city}
+            Daily Forecast
           </h2>
           <p className="text-xl text-center mb-4">
             Timezone: {forecastData.getDailyForecast.timezone}
@@ -198,27 +202,30 @@ const DailyForecast = () => {
             )}
           </div>
         </div>
-      ) : (
-        <div className="max-w-4xl mx-auto text-center py-16 px-6 ">
-          <h3 className="text-3xl font-normal mb-4 text-black dark:text-white">
-            Daily Forecast
-          </h3>
-          <img
-            className="w-48  h-48 mx-auto opacity-80"
-            src={placeHolder}
-            alt="No Forecast Data Available"
-          />
-          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            To get the weather forecast, please enter a valid city, state, and
-            country.
-          </p>
-          <p className="text-md text-gray-600 dark:text-gray-400 mb-4">
-            Ensure that the details you enter are correct. You can use the
-            search bar above to quickly find your city and get the forecast in
-            real-time.
-          </p>
-        </div>
       )}
+    </div>
+  );
+};
+
+const renderDefaultView = () => {
+  return (
+    <div className="max-w-4xl mx-auto text-center py-16 px-6 ">
+      <h3 className="text-3xl font-normal mb-4 text-black dark:text-white">
+        Daily Forecast
+      </h3>
+      <img
+        className="w-48  h-48 mx-auto opacity-80"
+        src={placeHolder}
+        alt="No Forecast Data Available"
+      />
+      <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+        To get the weather forecast, please enter a valid city, state, and
+        country.
+      </p>
+      <p className="text-md text-gray-600 dark:text-gray-400 mb-4">
+        Ensure that the details you enter are correct. You can use the search
+        bar above to quickly find your city and get the forecast in real-time.
+      </p>
     </div>
   );
 };

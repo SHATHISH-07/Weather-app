@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://weatherapp-backend-pdmu.onrender.com",
 });
 
 const authLink = setContext((_, { headers }) => {

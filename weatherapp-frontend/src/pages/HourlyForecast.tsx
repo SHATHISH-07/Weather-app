@@ -9,21 +9,20 @@ import placeHolder from "/undraw_among-nature_2f9e.svg";
 
 const weatherCodeToIcon = (code: number): string => {
   const map: { [key: number]: string } = {
-    0: "01d", // Clear sky
-    1: "02d", // Mainly clear
-    2: "03d", // Partly cloudy
-    3: "04d", // Overcast
-    45: "50d", // Fog
-    48: "50d", // Depositing rime fog
-    51: "09d", // Drizzle: light
-    61: "10d", // Rain: light
-    71: "13d", // Snow: light
-    80: "09d", // Rain showers: slight
-    95: "11d", // Thunderstorm
-    // Add more if needed
+    0: "01d",
+    1: "02d",
+    2: "03d",
+    3: "04d",
+    45: "50d",
+    48: "50d",
+    51: "09d",
+    61: "10d",
+    71: "13d",
+    80: "09d",
+    95: "11d",
   };
 
-  return map[code] || "01d"; // Fallback to clear sky icon
+  return map[code] || "01d";
 };
 
 const HourlyForecast = () => {
@@ -71,7 +70,8 @@ const HourlyForecast = () => {
     }
   }, [geoData, getHourlyForecast]);
 
-  const handleSearch = () => {
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
     getCoords({
       variables: {
         city: city,
@@ -82,7 +82,7 @@ const HourlyForecast = () => {
   };
 
   return (
-    <div className="bg-[#f3f4f6] dark:bg-[#1c1c1e] text-black dark:text-white min-h-screen p-6">
+    <div className="bg-[#f3f4f6] mt-[50px] md:mt-[65px] dark:bg-[#1c1c1e] text-black dark:text-white min-h-screen p-6">
       <FrdGeoSearchBar
         text="Hourly Forecast"
         placeholder="Enter the city"
@@ -97,16 +97,10 @@ const HourlyForecast = () => {
         handleSubmit={handleSearch}
       />
 
-      {loading ? (
-        <p className="text-center text-2xl mt-4 text-black dark:text-white">
-          Loading...
-        </p>
-      ) : error ? (
-        <p className="text-center text-red-500">Error: {error.message}</p>
-      ) : forecastData ? (
+      {forecastData ? (
         <div>
           <h2 className="text-4xl mt-15 mb-3 font-normal text-center">
-            Hourly Forecast for {city}
+            Hourly Forecast
           </h2>
           <p className="text-xl text-center mb-4">
             Timezone: {forecastData.getHourlyForecast.timezone}
@@ -119,9 +113,16 @@ const HourlyForecast = () => {
                   key={index}
                   className="flex flex-col justify-center items-center border-1 bg-white dark:bg-[#121212] rounded-2xl shadow-xl p-6 space-y-4 transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
                 >
-                  <h3 className="font-semibold text-xl text-gray-800 dark:text-white mb-4">
+                  <h3 className="font-semibold text-xl text-gray-800 dark:text-white mb-1">
                     {new Date(date).toLocaleDateString()}
                   </h3>
+                  <p className="text-md text-gray-600 dark:text-gray-400 mb-2">
+                    {new Date(date).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </p>
+
                   <div className="space-y-6 text-gray-800 dark:text-gray-300">
                     <div className="flex items-center space-x-4">
                       <i className="fas fa-sun text-2xl"></i>
@@ -174,26 +175,51 @@ const HourlyForecast = () => {
           </div>
         </div>
       ) : (
-        <div className="max-w-4xl mx-auto text-center py-16 px-6 ">
-          <h3 className="text-3xl font-normal mb-4 text-black dark:text-white">
-            Hourly Forecast
-          </h3>
-          <img
-            className="w-48  h-48 mx-auto opacity-80"
-            src={placeHolder}
-            alt="No Forecast Data Available"
-          />
-          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            To get the weather forecast, please enter a valid city, state, and
-            country.
-          </p>
-          <p className="text-md text-gray-600 dark:text-gray-400 mb-4">
-            Ensure that the details you enter are correct. You can use the
-            search bar above to quickly find your city and get the forecast in
-            real-time.
-          </p>
-        </div>
+        <>
+          {renderDefaultView()}
+
+          {geoError && (
+            <p className="text-center text-red-500 mt-4">
+              Location Error: {geoError.message}
+            </p>
+          )}
+
+          {error && (
+            <p className="text-center text-red-500 mt-4">
+              Forecast Error: {error.message}
+            </p>
+          )}
+
+          {loading && (
+            <p className="text-center text-2xl mt-4 text-black dark:text-white">
+              Loading forecast...
+            </p>
+          )}
+        </>
       )}
+    </div>
+  );
+};
+
+const renderDefaultView = () => {
+  return (
+    <div className="max-w-4xl mx-auto text-center py-16 px-6 ">
+      <h3 className="text-3xl font-normal mb-4 text-black dark:text-white">
+        Hourly Forecast
+      </h3>
+      <img
+        className="w-48  h-48 mx-auto opacity-80"
+        src={placeHolder}
+        alt="No Forecast Data Available"
+      />
+      <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+        To get the weather forecast, please enter a valid city, state, and
+        country.
+      </p>
+      <p className="text-md text-gray-600 dark:text-gray-400 mb-4">
+        Ensure that the details you enter are correct. You can use the search
+        bar above to quickly find your city and get the forecast in real-time.
+      </p>
     </div>
   );
 };

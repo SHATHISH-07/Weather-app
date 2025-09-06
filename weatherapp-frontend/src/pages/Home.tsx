@@ -4,7 +4,7 @@ import ReverseGeocoding from "./ReverseGeocoding";
 
 const Home = () => {
   return (
-    <div className="max-w-7xl mx-auto ">
+    <div className=" mx-auto ">
       <CurrentWeather />
       <ForwardGeocoding />
       <ReverseGeocoding />

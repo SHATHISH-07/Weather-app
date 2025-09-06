@@ -57,10 +57,9 @@ const MenuBar = ({ isOpen, setIsOpen }: MenuBarProp) => {
 
       {/* Slide-down Fullscreen Modal */}
       <div
-        className={`fixed left-0 w-full h-[calc(100%-4rem)]  bg-[#f3f4f6] dark:bg-[#1C1C1E] z-40 transition-transform duration-500 ease-in-out transform rounded-t-2xl shadow-lg  overflow-y-scroll scrollbar-hide ${
+        className={`fixed top-[-11px] md:top-0 left-0 w-full h-screen md:h-[calc(100%-4rem)]  bg-[#f3f4f6] dark:bg-[#1C1C1E] z-40 transition-transform duration-500 ease-in-out transform rounded-t-2xl shadow-lg  overflow-y-scroll scrollbar-hide ${
           isOpen ? "translate-y-16" : "-translate-y-full"
         }`}
-        style={{ top: 0 }}
       >
         <div className="px-2 md:px-6 py-2 md:py-4 mt-5 md:mt-15  space-y-5 text-gray-800 dark:text-white">
           <div className="md:hidden block pl-3 ">
@@ -124,6 +123,22 @@ const MenuBar = ({ isOpen, setIsOpen }: MenuBarProp) => {
                 Login
               </p>
             )}
+            <a
+              href="https://shathish2004.github.io/Shathish-Portfolio/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-lg md:text-2xl p-7 hover:text-gray-500 cursor-pointer"
+            >
+              About Me
+            </a>
+            <a
+              href="https://shathish2004.github.io/Shathish-Portfolio/#/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-lg md:text-2xl p-7 hover:text-gray-500 cursor-pointer"
+            >
+              FeedBack
+            </a>
           </div>
         </div>
       </div>

@@ -17,6 +17,14 @@ const Footer = () => {
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Powered by OpenWeather & LocationIQ
           </p>
+          <a
+            href="https://shathish2004.github.io/Shathish-Portfolio/#/contact"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block py-5 text-lg font-semibold  text-gray-500 dark:text-gray-400"
+          >
+            😊 Give FeedBack
+          </a>
         </div>
 
         <div className="flex flex-col space-y-5 items-center">

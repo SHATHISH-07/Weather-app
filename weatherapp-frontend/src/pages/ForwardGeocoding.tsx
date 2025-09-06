@@ -19,6 +19,8 @@ const ForwardGeocoding = () => {
   const [forwardGeoData, setForwardGeoData] = useState<ForwardGeocoding[]>();
   const [inputError, setInputError] = useState<string | null>(null);
 
+  const [hasInitialized, setHasInitialized] = useState(false);
+
   const [getGeocoding, { loading, error, data: queryData }] = useLazyQuery(
     GET_FORWARD_GEOCODING
   );
@@ -26,13 +28,20 @@ const ForwardGeocoding = () => {
   const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    if (user?.city && user?.state && user?.country) {
+    if (user?.city && user?.state && user?.country && !hasInitialized) {
       setCity(user.city);
       setState(user.state);
       setCountry(user.country);
-      getGeocoding({ variables: { city, state, country } });
+      getGeocoding({
+        variables: {
+          city: user.city,
+          state: user.state,
+          country: user.country,
+        },
+      });
+      setHasInitialized(true);
     }
-  }, [user, city, state, country, getGeocoding]);
+  }, [user, getGeocoding, hasInitialized]);
 
   useEffect(() => {
     if (queryData) {
@@ -51,7 +60,7 @@ const ForwardGeocoding = () => {
   };
 
   return (
-    <div className="px-4  bg-white dark:bg-[#121212]">
+    <div className="px-4 mt-[50px] md:mt-[65px] bg-white dark:bg-[#121212]">
       <FrdGeoSearchBar
         text="Get Forward Geocoding"
         placeholder="Enter a city"
@@ -81,7 +90,7 @@ const ForwardGeocoding = () => {
           forwardGeoData.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-center rounded-xl mb-8 p-6 bg-[#f3f4f6] dark:bg-[#1a1a1a] shadow-md transition-shadow hover:shadow-md"
+              className="flex flex-col items-center justify-center rounded-xl mb-5 mt-5 p-6 bg-[#f3f4f6] dark:bg-[#1a1a1a] shadow-md transition-shadow hover:shadow-md "
             >
               <h3 className="text-xl md:text-xl font-medium text-gray-900 dark:text-gray-100 mb-2 flex items-center gap-2">
                 <i className="fas fa-map-marker-alt text-gray-500"></i>

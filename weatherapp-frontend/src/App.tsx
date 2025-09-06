@@ -48,19 +48,21 @@ const App = () => {
   }, [client, dispatch]);
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#121212]">
       <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/currentweather" element={<CurrentWeather />} />
-        <Route path="/forwardgeocoding" element={<ForwardGeocoding />} />
-        <Route path="/reversegeocoding" element={<ReverseGeocoding />} />
-        <Route path="/dailyforecast" element={<DailyForecast />} />
-        <Route path="/hourlyforecast" element={<HourlyForecast />} />
-        <Route path="/airquality" element={<AirQuality />} />
-      </Routes>
+      <main className="flex-1 mx-auto w-full">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/currentweather" element={<CurrentWeather />} />
+          <Route path="/forwardgeocoding" element={<ForwardGeocoding />} />
+          <Route path="/reversegeocoding" element={<ReverseGeocoding />} />
+          <Route path="/dailyforecast" element={<DailyForecast />} />
+          <Route path="/hourlyforecast" element={<HourlyForecast />} />
+          <Route path="/airquality" element={<AirQuality />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   );

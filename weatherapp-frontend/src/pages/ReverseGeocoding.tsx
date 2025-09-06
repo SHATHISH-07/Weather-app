@@ -41,7 +41,7 @@ const ReverseGeocoding = () => {
   };
 
   return (
-    <div className="px-4 bg-[#f3f4f6] dark:bg-[#1c1c1e]">
+    <div className="px-4 mt-[50px] md:mt-[65px] bg-[#f3f4f6] dark:bg-[#1c1c1e]">
       <RevGeoSearchBar
         text="Get Reverse Geocoding"
         latitude={latitude}
